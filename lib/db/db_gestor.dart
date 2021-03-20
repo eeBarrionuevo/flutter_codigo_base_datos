@@ -36,7 +36,7 @@ class DBManager {
   getDogId(int id) async {
     final db = await database;
     final res = db.query('Dog', where: 'id = ?', whereArgs: [id]);
-    print("Respuesta del getDogId $res");
+    print("Respuesta del getDogId ${res}");
   }
 
 
