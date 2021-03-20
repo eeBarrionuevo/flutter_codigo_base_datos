@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  DBManager.db.getDogId(1);
+                  print(DBManager.db.getDogId(1));
                 },
                 child: Text("Obtener Perrito ID"),
               )

@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:flutter_codigo_base_datos/models/dog_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -33,11 +34,17 @@ class DBManager {
     );
   }
 
-  getDogId(int id) async {
+  Future<Dog> getDogId(int id) async {
     final db = await database;
-    final res = db.query('Dog', where: 'id = ?', whereArgs: [id]);
-    print("Respuesta del getDogId ${res}");
+    final res = await db.query('Dog', where: 'id = ?', whereArgs: [id]);
+    return res.isNotEmpty ? Dog.fromJson(res.first) : null;
   }
+
+  insertDogRaw(Dog perrito) async{
+    final db = await database;
+    final res = await db.rawInsert("INSERT INTO Dog(id, nameDog, colorDog, imageDog) VALUES(${perrito.id},'${perrito.nameDog}','${perrito.colorDog}','${perrito.imageDog}')");
+  }
+
 
 
 
