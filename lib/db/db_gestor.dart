@@ -40,11 +40,11 @@ class DBManager {
     return res.isNotEmpty ? Dog.fromJson(res.first) : null;
   }
 
-
   Future<List<Dog>> getAllDogs() async{
     final db = await database;
     final res = await db.query("Dog");
     List<Dog> listDogs = res.isNotEmpty ? res.map((juanito)=>Dog.fromJson(juanito)).toList() : [];
+    print(listDogs);
     return listDogs;
   }
 
@@ -66,11 +66,28 @@ class DBManager {
 
   }
 
-  updateDog(Dog perrito) async {
+  Future<int> updateDog(Dog perrito) async {
     final db = await database;
     final res = await  db.update("Dog", perrito.toJson(), where: 'id = ?', whereArgs: [perrito.id]);
-    print(res);
+    return res;
   }
+  
+  Future<int> deleteDog(int id) async {
+    final db = await database;
+    final res = await db.delete("Dog", where: 'id = ?', whereArgs: [id]);
+    return res;
+  }
+
+  Future<int> deleteAllDogs() async {
+    final  db = await database;
+    // final res = await db.delete("Dog");
+    final res = await db.rawDelete("DELETE FROM Dog");
+    print(res);
+    return res;
+  }
+
+
+
 
 
 

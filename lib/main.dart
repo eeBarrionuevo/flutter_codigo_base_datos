@@ -20,7 +20,18 @@ class MyApp extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  print(DBManager.db.getDogId(2));
+                  print(
+                    DBManager.db
+                        .getDogId(5)
+                        .then(
+                          (value) => print("Dentro del THEN ${value.nameDog}"),
+                        )
+                        .catchError(
+                      (error) {
+                        print(error);
+                      },
+                    ),
+                  );
                 },
                 child: Text("Obtener Perrito ID"),
               ),
@@ -57,16 +68,28 @@ class MyApp extends StatelessWidget {
                 child: Text("Obtener todos los Perritos"),
               ),
               TextButton(
-                onPressed: (){
+                onPressed: () {
                   Dog perrito = Dog(
-                    id: 2,
-                    nameDog: "Tallarin 3",
-                    colorDog: "Café",
-                    imageDog: "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                  );
+                      id: 2,
+                      nameDog: "Empanada",
+                      colorDog: "Café",
+                      imageDog:
+                          "https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
                   DBManager.db.updateDog(perrito);
                 },
                 child: Text("Actualizar Perrito"),
+              ),
+              TextButton(
+                onPressed: () {
+                  DBManager.db.deleteDog(1);
+                },
+                child: Text("Eliminar un registro"),
+              ),
+              TextButton(
+                onPressed: () {
+                  DBManager.db.deleteAllDogs();
+                },
+                child: Text("Eliminar todos"),
               ),
             ],
           ),
