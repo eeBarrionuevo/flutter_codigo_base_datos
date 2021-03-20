@@ -40,9 +40,33 @@ class DBManager {
     return res.isNotEmpty ? Dog.fromJson(res.first) : null;
   }
 
+  getAllDogs() async{
+    final db = await database;
+    final res = await db.query("Dog");
+    print("sdsd");
+    var ee = res.map((juanito) {
+        Dog.fromJson(juanito);
+    });
+
+    print(ee);
+  }
+
   insertDogRaw(Dog perrito) async{
     final db = await database;
-    final res = await db.rawInsert("INSERT INTO Dog(id, nameDog, colorDog, imageDog) VALUES(${perrito.id},'${perrito.nameDog}','${perrito.colorDog}','${perrito.imageDog}')");
+    final res = await db.rawInsert(
+        "INSERT INTO Dog(id, nameDog, colorDog, imageDog) VALUES(${perrito.id},'${perrito.nameDog}','${perrito.colorDog}','${perrito.imageDog}')"
+    );
+    print(res);
+    return res;
+  }
+
+  insertDog(Dog perrito) async {
+
+    final db = await database;
+    final res = await db.insert("Dog", perrito.toJson());
+    print(res);
+    return res;
+
   }
 
 
